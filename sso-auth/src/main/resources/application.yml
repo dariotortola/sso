@@ -1,0 +1,13 @@
+#db de usuarios
+spring.datasource:
+  url: jdbc:oracle:thin:@172.15.9.85:1521:ORACLEDE
+  username: scott
+  password: tiger
+  
+server:
+  port: 9999
+  contextPath: /uaa
+  
+logging.level.root: DEBUG
+    
+debug: true
