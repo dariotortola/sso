@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 @SpringBootApplication
 @EnableOAuth2Sso
 public class UiApplication {
+    protected UiApplication() {
+        // para que no se queje sonar
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(UiApplication.class, args);

@@ -6,4 +6,4 @@ security:
       clientId: acme
       clientSecret: acmesecret
     resource:
-      userInfoUri: http://localhost:9999/uaa/resource/me
+      userInfoUri: http://localhost:9999/uaa/me
