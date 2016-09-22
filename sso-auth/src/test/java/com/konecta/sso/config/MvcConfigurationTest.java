@@ -1,0 +1,21 @@
+package com.konecta.sso.config;
+
+import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+
+public class MvcConfigurationTest {
+
+    @Test
+    public void test() {
+        ViewControllerRegistry registry = Mockito.mock(ViewControllerRegistry.class);
+        ViewControllerRegistration registration = Mockito.mock(ViewControllerRegistration.class);
+        Mockito.when(registry.addViewController(Matchers.anyString())).thenReturn(registration);
+
+        new MvcConfiguration().addViewControllers(registry);
+        Mockito.verify(registry, Mockito.times(2)).addViewController(Matchers.anyString());
+        Mockito.verify(registration, Mockito.times(2)).setViewName(Matchers.anyString());
+    }
+}

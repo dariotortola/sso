@@ -61,9 +61,8 @@ public class AuthenticationListener implements ApplicationListener<Authenticatio
 
         if (!soloUltimoLogin || jdbc.update(UPDATE, fecha, username, clientId) < 1) {
             /*
-             * sólo hacemos insert cuando tenemos que ponerlos todos
-             * (!soloUltimoLogin) o cuando el update no ha encontrado ningún
-             * registro
+             * insert new only when we have to log every single login or when
+             * there is not previous record
              */
             jdbc.update(INSERT, fecha, username, clientId);
         }

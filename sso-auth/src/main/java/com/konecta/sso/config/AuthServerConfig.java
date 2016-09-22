@@ -3,8 +3,10 @@ package com.konecta.sso.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -29,6 +31,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private DataSource dataSource;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    @Qualifier("authenticationManagerBean")
+    private AuthenticationManager authenticationManager;
 
     @Bean
     public OAuth2RequestFactory oauth2RequestFactory() {
@@ -40,7 +45,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // usamos tokens jwt
-        endpoints.tokenStore(tokenStore()).accessTokenConverter(accessTokenConverter());
+        endpoints.tokenStore(tokenStore()).accessTokenConverter(accessTokenConverter())
+                .authenticationManager(authenticationManager);
     }
 
     @Override

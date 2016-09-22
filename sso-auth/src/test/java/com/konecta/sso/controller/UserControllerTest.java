@@ -26,7 +26,7 @@ public class UserControllerTest {
     private UserController controller = new UserController();
 
     @Test
-    public void me() {
+    public void meOAuth() {
         OAuth2Authentication logged = Mockito.mock(OAuth2Authentication.class);
         List<String> permisos = Arrays.asList("uno", "dos");
         Mockito.when(service.getAuthorities(logged)).thenReturn(permisos);
@@ -40,5 +40,11 @@ public class UserControllerTest {
         for (String s : permisos) {
             Assert.assertTrue(kauth.getAuthorities().stream().anyMatch(ga -> ga.getAuthority().equals(s)));
         }
+    }
+
+    @Test
+    public void meApp() {
+        Authentication logged = Mockito.mock(Authentication.class);
+        Assert.assertEquals(logged, controller.getMe(logged));
     }
 }

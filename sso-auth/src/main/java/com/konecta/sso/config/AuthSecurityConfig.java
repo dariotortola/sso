@@ -2,11 +2,15 @@ package com.konecta.sso.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
 /**
  * Configuración de seguridad por la parte de aplicación
@@ -20,9 +24,37 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic();
-        http.authorizeRequests().antMatchers("/", "/login**").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authReq = http
+                .authorizeRequests();
+        authReq.antMatchers("/", "/login**").permitAll();
+        /*
+         * en control de acceso, el permiso mínimo es existir en la base de
+         * datos de usuarios
+         */
+        authReq.anyRequest().authenticated();
+
+        http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl());
+
+        http.formLogin().loginPage("/login").permitAll();
+        /*
+         * TODO logout que borre cookies, remember me
+         */
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        /*
+         * para poder compartirlo como bean en la configuración del servidor de
+         * autorización
+         */
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // pasamos de los elementos estáticos
+        web.ignoring().antMatchers("/webjars/**", "/js/**");
     }
 
     /**
