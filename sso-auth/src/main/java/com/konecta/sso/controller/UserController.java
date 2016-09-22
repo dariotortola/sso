@@ -3,7 +3,6 @@ package com.konecta.sso.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,6 @@ public class UserController {
     private UserClientAuthoritiesService service;
 
     @RequestMapping({ "me", "user/me" })
-    // @PreAuthorize("#oauth2.isOauth() or isAuthenticated()")
     public Authentication getMe(Authentication logged) {
         if (logged instanceof OAuth2Authentication) {
             /* entrada por OAuth, filtramos los permisos por aplicación */
