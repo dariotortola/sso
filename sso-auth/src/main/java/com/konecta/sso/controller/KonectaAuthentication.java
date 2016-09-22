@@ -52,7 +52,7 @@ public class KonectaAuthentication implements Authentication {
     }
 
     @Override
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+    public void setAuthenticated(boolean isAuthenticated) {
         wrapped.setAuthenticated(isAuthenticated);
     }
 

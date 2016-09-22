@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
@@ -20,6 +21,7 @@ import com.konecta.sso.service.UserClientAuthoritiesService;
  *
  */
 @Component
+@ConfigurationProperties(prefix = "konecta.security.login-listener")
 public class AuthenticationListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     private static final String INSERT = "insert into login(usuario, aplicacion, fecha) select u.id as usuario, a.id as aplicacion, ? as fecha from usuarios u, aplicaciones a where u.username = ? and a.codigo = ?";
@@ -30,13 +32,12 @@ public class AuthenticationListener implements ApplicationListener<Authenticatio
     @Autowired
     private UserClientAuthoritiesService service;
 
-    // TODO usar el prefijo de propiedades para esto
-    @Value("${konecta.security.login-listener.solo-con-authorities:true}")
+    @Value("${solo-con-authorities:true}")
     private boolean soloConAuthorities;
 
-    @Value("${konecta.security.login-listener.solo-ultimo:true}")
+    @Value("${solo-ultimo:true}")
     private boolean soloUltimoLogin;
-    
+
     /**
      * Guarda el último login del usuario en la aplicación
      * 
