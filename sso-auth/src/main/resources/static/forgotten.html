@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Control de acceso</title>
+<script type="text/javascript" src="webjars/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="webjars/bootstrap/css/bootstrap.min.css">
+<script type="text/javascript"
+	src="webjars/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="webjars/angularjs/angular.min.js"></script>
+</head>
+<body class="container-fluid">
+
+<div ng-app="forgotPass" ng-controller="forgotten">
+	<button class="btn btn-default" data-toggle="modal"
+		data-target="#promptUserForgot">He olvidado mi password</button>
+
+	<form name="promptUserForgot" id="promptUserForgot" role="form">
+		<div class="form-group">
+			<label for="username">Username:</label> <input type="text"
+				class="form-control" id="username" name="username" />
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+
+</body>
+</html>
