@@ -27,15 +27,9 @@ public class Aplicacion {
     @JoinTable(name = "ALLOWED_GRANT_TYPES", joinColumns = @JoinColumn(name = "CLIENTE", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "GRANT_CLIENTE")), inverseJoinColumns = @JoinColumn(name = "GRANT_TYPE", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "GRANT_TYPE")))
     private List<GrantType> allowedGrantTypes;
 
-    @Column(name = "AUTHORITIES")
-    private String authorities;
     @ManyToMany
     @JoinTable(name = "APLICACION_AUTHORITIES", joinColumns = @JoinColumn(name = "CLIENTE", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "APL_AUT_CLIENTE")), inverseJoinColumns = @JoinColumn(name = "AUTHORITY", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "APL_AUT_AUTHORITY")))
     private List<Permiso> authoritiesAsClient;
-    @Column(name = "AUTHORIZED_GRANT_TYPES")
-    private String authorizedGrantTypes;
-    @Column(name = "AUTO_APPROVE")
-    private String autoApprove;
     @Column(name = "CODIGO", nullable = false)
     private String codigo;
     @Column(name = "DESCRIPCION")
@@ -52,15 +46,9 @@ public class Aplicacion {
     @Column(name = "REFRESH_TOKEN_VALIDITY")
     private Long refreshTokenValidity;
 
-    @Column(name = "RESOURCE_IDS")
-    private String resourceIds;
-
     @ManyToMany
     @JoinTable(name = "APLICACION_RECURSO", joinColumns = @JoinColumn(name = "CLIENTE", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "APL_RES_CLIENTE")), inverseJoinColumns = @JoinColumn(name = "RECURSO", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "APL_RES_RESOURCE")))
     private List<Aplicacion> resources;
-
-    @Column(name = "SCOPE")
-    private String scope;
 
     @Version
     @Column(name = "VERSION")
@@ -83,10 +71,6 @@ public class Aplicacion {
         return allowedGrantTypes;
     }
 
-    public String getAuthorities() {
-        return authorities;
-    }
-
     /**
      * La lista será habitualmente vacía, pero se puede rellenar para (1)
      * permitir que la aplicación haga ciertas actuaciones sobre los recursos,
@@ -99,14 +83,6 @@ public class Aplicacion {
      */
     public List<Permiso> getAuthoritiesAsClient() {
         return authoritiesAsClient;
-    }
-
-    public String getAuthorizedGrantTypes() {
-        return authorizedGrantTypes;
-    }
-
-    public String getAutoApprove() {
-        return autoApprove;
     }
 
     public String getCodigo() {
@@ -129,20 +105,12 @@ public class Aplicacion {
         return refreshTokenValidity;
     }
 
-    public String getResourceIds() {
-        return resourceIds;
-    }
-
     /**
      * @return lista de aplicaciones con recursos a los que esta aplicación
      *         puede acceder. Si es vacía, no tiene restricciones
      */
     public List<Aplicacion> getResources() {
         return resources;
-    }
-
-    public String getScope() {
-        return scope;
     }
 
     public long getVersion() {
@@ -161,20 +129,8 @@ public class Aplicacion {
         this.allowedGrantTypes = allowedGrantTypes;
     }
 
-    public void setAuthorities(String authorities) {
-        this.authorities = authorities;
-    }
-
     public void setAuthoritiesAsClient(List<Permiso> authoritiesAsClient) {
         this.authoritiesAsClient = authoritiesAsClient;
-    }
-
-    public void setAuthorizedGrantTypes(String authorizedGrantTypes) {
-        this.authorizedGrantTypes = authorizedGrantTypes;
-    }
-
-    public void setAutoApprove(String autoApprove) {
-        this.autoApprove = autoApprove;
     }
 
     public void setCodigo(String codigo) {
@@ -197,16 +153,8 @@ public class Aplicacion {
         this.refreshTokenValidity = refreshTokenValidity;
     }
 
-    public void setResourceIds(String resourceIds) {
-        this.resourceIds = resourceIds;
-    }
-
     public void setResources(List<Aplicacion> resources) {
         this.resources = resources;
-    }
-
-    public void setScope(String scope) {
-        this.scope = scope;
     }
 
     public void setVersion(long version) {

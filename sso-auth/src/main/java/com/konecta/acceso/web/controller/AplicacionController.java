@@ -132,13 +132,8 @@ public class AplicacionController {
         // actualiza todo excepto version, id y password
         Aplicacion app = repository.findOne(id);
         app.setAccessTokenValidity(modificada.getAccessTokenValidity());
-        app.setAuthorities(modificada.getAuthorities());
-        app.setAuthorizedGrantTypes(modificada.getAuthorizedGrantTypes());
-        app.setAutoApprove(modificada.getAutoApprove());
         app.setDescripcion(modificada.getDescripcion());
         app.setRefreshTokenValidity(modificada.getRefreshTokenValidity());
-        app.setResourceIds(modificada.getResourceIds());
-        app.setScope(modificada.getScope());
         app.setWebServerRedirectUri(modificada.getWebServerRedirectUri());
         // antes de cambiar el código, se asegura de que no perdamos unicidad
         List<Aplicacion> apps = repository.findByCodigo(modificada.getCodigo());
