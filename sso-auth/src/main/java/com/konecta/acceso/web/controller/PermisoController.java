@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.konecta.acceso.model.Permiso;
 import com.konecta.acceso.repository.PermisoRepository;
+import com.konecta.sso.model.Permiso;
 
 @RestController
 @RequestMapping("permiso")

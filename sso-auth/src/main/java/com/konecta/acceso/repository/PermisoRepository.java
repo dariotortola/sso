@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.konecta.acceso.model.Permiso;
+import com.konecta.sso.model.Permiso;
 
 public interface PermisoRepository extends JpaRepository<Permiso, Long> {
     List<Permiso> findByAplicacionId(Long id);

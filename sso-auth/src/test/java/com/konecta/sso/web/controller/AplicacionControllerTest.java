@@ -8,12 +8,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.konecta.acceso.model.Aplicacion;
 import com.konecta.acceso.model.Perfil;
 import com.konecta.acceso.repository.AplicacionRepository;
 import com.konecta.acceso.repository.PerfilRepository;
 import com.konecta.acceso.repository.PermisoRepository;
 import com.konecta.acceso.web.controller.AplicacionController;
+import com.konecta.sso.model.Aplicacion;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;

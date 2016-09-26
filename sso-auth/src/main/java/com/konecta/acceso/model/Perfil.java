@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
+import com.konecta.sso.model.Aplicacion;
+import com.konecta.sso.model.Permiso;
+
 @Entity
 @Table(name = "PERFILES", uniqueConstraints = @UniqueConstraint(name = "PerfilUnicoPorAplicacion", columnNames = {
         "APLICACION", "CODIGO" }))

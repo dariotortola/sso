@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.konecta.acceso.model.Perfil;
-import com.konecta.acceso.model.Permiso;
 import com.konecta.acceso.repository.PerfilRepository;
 import com.konecta.acceso.repository.PermisoRepository;
+import com.konecta.sso.model.Permiso;
 
 @RestController
 @RequestMapping("perfil")

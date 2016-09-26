@@ -1,4 +1,4 @@
-package com.konecta.acceso.model;
+package com.konecta.sso.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -54,11 +54,19 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         security.passwordEncoder(passwordEncoder);
     }
 
+    /**
+     * Esta query es algo compleja porque tiene varias subconsultas con el
+     * objetivo de que el mantenimiento sea más sencillo. Utiliza una función
+     * propia de Oracle para combinar scopes, resource_ids,
+     * authorized_grant_types, authorities y autoApprove a partir de los
+     * resultados en varias tablas
+     */
+    private static final String SELECT_CLIENT_DETAILS = "select A.codigo as client_id, A.password as client_secret, (select LISTAGG(resources.codigo, ',') WITHIN GROUP (ORDER BY resources.codigo) from APLICACION_RECURSO AR inner join APLICACIONES resources on resources.id = AR.RECURSO where AR.CLIENTE = A.ID) as \"resource_ids\", (select LISTAGG(APSC.scope, ',') WITHIN GROUP (ORDER BY APSC.scope) from APLICACION_SCOPES APSC where APSC.APLICACION = A.ID) as \"scope\", (select LISTAGG(GT.name, ',') WITHIN GROUP (ORDER BY GT.name) from ALLOWED_GRANT_TYPES AGT inner join GRANT_TYPES GT on GT.ID = AGT.GRANT_TYPE where AGT.CLIENTE  = A.ID) as \"authorized_grant_types\", A.web_server_redirect_uri, (select LISTAGG(P.codigo, ',') WITHIN GROUP (ORDER BY P.codigo) from PERMISOS P inner join APLICACION_RECURSO AR on AR.RECURSO = P.ID inner join APLICACIONES resources on resources.id = AR.RECURSO where AR.CLIENTE = A.ID) as \"authorities\", A.access_token_validity, A.refresh_token_validity, A.additional_information, (select LISTAGG(APSC.scope, ',') WITHIN GROUP (ORDER BY APSC.scope) from APLICACION_SCOPES APSC where APSC.APLICACION = A.ID AND APSC.auto_Approve > 0) as \"autoapprove\" from aplicaciones A where A.codigo = ?";
+
     @Bean
     public ClientDetailsService clientDetailsService() {
         JdbcClientDetailsService service = new JdbcClientDetailsService(dataSource);
-        service.setSelectClientDetailsSql(
-                "select codigo as client_id, password as client_secret, resource_ids, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, auto_approve as autoapprove from aplicaciones where codigo = ?");
+        service.setSelectClientDetailsSql(SELECT_CLIENT_DETAILS);
         return service;
     }
 
