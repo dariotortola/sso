@@ -22,7 +22,7 @@
 				de usuario</label>
 			<div class="col-md-10">
 				<input name="username" class="form-control" required
-					ng-model="usuario.username" ensure-unique>
+					ng-model="usuario.username" ensure-unique="usuario/count/">
 			</div>
 			<p ng-show="newUserForm.username.$error.required" class="text-danger">El
 				nombre de usuario es obligatorio</p>
@@ -42,7 +42,7 @@
 			<label for="email" class="col-md-2 control-label">Email</label>
 			<div class="col-md-10">
 				<input name="email" type="email" class="form-control"
-					ng-model="usuario.email" ensure-unique>
+					ng-model="usuario.email" ensure-unique="usuario/count/">
 			</div>
 			<p ng-show="newUserForm.email.$error.unique" class="text-danger">Este
 				email ya está registrado</p>
@@ -52,7 +52,7 @@
 			<label for="meta4" class="col-md-2 control-label">Meta4</label>
 			<div class="col-md-10">
 				<input name="meta4" class="form-control" ng-model="usuario.meta4"
-					ensure-unique>
+					ensure-unique="usuario/count/">
 			</div>
 			<p ng-show="newUserForm.meta4.$error.unique" class="text-danger">Este
 				meta4 ya está registrado</p>

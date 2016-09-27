@@ -19,6 +19,7 @@
 <script type="text/javascript" src="js/aplicaciones.js"></script>
 <script type="text/javascript" src="js/control-acceso.js"></script>
 <script type="text/javascript" src="js/new-usuario.js"></script>
+<script type="text/javascript" src="js/personal.js"></script>
 
 </head>
 <body class="container-fluid" ng-app="control-acceso">
@@ -27,6 +28,8 @@
 		<ul class="nav navbar-nav">
 			<li ng-class="{'active' : isActive('/registro')}"><a
 				href="#/registro">Registro de usuarios</a></li>
+			<li ng-class="{'active' : isActive('/personal')}"><a
+				href="#/personal">Datos personales</a></li>
 			<li ng-class="{'active' : isActive('/aplicaciones')}"><a
 				href="#/aplicaciones">Aplicaciones</a></li>
 		</ul>

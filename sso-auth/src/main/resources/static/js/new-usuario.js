@@ -73,25 +73,43 @@ angular.module('control-acceso')
         })
 
 /**
- * comprobaciones de unicidad
+ * validación: comprobaciones de unicidad para inputs. Dado un input con
+ * name="NAME", y ensure-unique="URL", se hace una consulta a URL/NAME. Si esa
+ * consulta tiene éxito y devuelve un número menor de 1, se asume ensureUnique
+ * correcto. En otro caso, se asume que hay ya un elemento como el que nos
+ * interesa y se pone unique false
  */
-.directive('ensureUnique', function($http, $parse) {
-    return {
-        require : 'ngModel',
-        link : function(scope, element, atribs, controller) {
-            scope.$watch(atribs.ngModel, function() {
-                var data = {};
-                data[atribs.name] = $parse(atribs.ngModel)(scope);
+.directive(
+        'ensureUnique',
+        function($http, $parse) {
+            return {
+                require : 'ngModel',
+                link : function(scope, element, atribs, controller) {
+                    scope.$watch(atribs.ngModel, function() {
+                        var value = $parse(atribs.ngModel)(scope);
+                        if (value) {
+                            // preparamos los datos para la request
+                            var config = {
+                                params : {}
+                            };
+                            config.params[atribs.name] = value;
 
-                $http.get('usuario/count/' + atribs.name, data, {
-                    params : data
-                }).then(function(value) {
-                    controller.$setValidity('unique', value.data < 1);
-                }, function(reason) {
-                    controller.$setValidity('unique', false);
-                })
+                            var url = atribs.ensureUnique;
+                            
+                            $http.get(url + atribs.name, config)
+                                    .then(
+                                            function(value) {
+                                                controller.$setValidity(
+                                                        'unique',
+                                                        value.data < 1);
+                                            },
+                                            function(reason) {
+                                                controller.$setValidity(
+                                                        'unique', false);
+                                            });
+                        }
 
-            });
-        }
-    };
-});
+                    });
+                }
+            };
+        });

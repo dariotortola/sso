@@ -32,4 +32,25 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
      * @return cantidad de usuarios con este email, case-insensitive
      */
     long countByEmailIgnoreCase(String email);
+
+    /**
+     * @param username
+     * @return cantidad de usuarios con este username, case-insensitive, sin
+     *         contar uno con la id indicada
+     */
+    long countByUsernameIgnoreCaseAndIdNot(String username, Long id);
+
+    /**
+     * @param meta4
+     * @return cantidad de usuarios con este meta4, case-insensitive, sin contar
+     *         uno con la id indicada
+     */
+    long countByMeta4IgnoreCaseAndIdNot(String meta4, Long id);
+
+    /**
+     * @param email
+     * @return cantidad de usuarios con este email, case-insensitive, sin contar
+     *         uno con la id indicada
+     */
+    long countByEmailIgnoreCaseAndIdNot(String email, Long id);
 }

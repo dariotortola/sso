@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Información personal</title>
+</head>
+<body>
+
+	<form class="form-horizontal" ng-submit="controller.submit()"
+		name="editMeForm">
+
+		<div class="form-group">
+			<label for="username" class="col-md-2 control-label">Nombre
+				de usuario</label>
+			<div class="col-md-10">
+				<input name="username" class="form-control" required
+					ng-model="usuario.username" ensure-unique="usuario/me/count/">
+			</div>
+			<p ng-show="editMeForm.username.$error.required" class="text-danger">El
+				nombre de usuario es obligatorio</p>
+			<p ng-show="editMeForm.username.$error.noOther" class="text-danger">El
+				nombre de usuario ya existe</p>
+		</div>
+
+		<div class="form-group">
+			<label for="nombre" class="col-md-2 control-label">Nombre
+				real</label>
+			<div class="col-md-10">
+				<input name="nombre" class="form-control" ng-model="usuario.nombre">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="email" class="col-md-2 control-label">Email</label>
+			<div class="col-md-10">
+				<input name="email" type="email" class="form-control"
+					ng-model="usuario.email" ensure-unique="usuario/me/count/">
+			</div>
+			<p ng-show="editMeForm.email.$error.noOther" class="text-danger">Este
+				email ya está registrado</p>
+		</div>
+
+		<div class="form-group">
+			<label for="meta4" class="col-md-2 control-label">Meta4</label>
+			<div class="col-md-10">
+				<input name="meta4" class="form-control" ng-model="usuario.meta4"
+					ensure-unique="usuario/me/count/">
+			</div>
+			<p ng-show="editMeForm.meta4.$error.noOther" class="text-danger">Este
+				meta4 ya está registrado</p>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<button class="btn btn-primary" type="submit"
+					ng-disabled="editMeForm.$invalid">Guardar cambios</button>
+			</div>
+		</div>
+	</form>
+
+	<form class="form-horizontal" ng-submit="controller.changePassword()"
+		name="changePassword">
+		<div class="form-group">
+			<label for="current" class="col-md-2 control-label">Password</label>
+			<div class="col-md-10">
+				<input name="current" type="password" class="form-control"
+					ng-model="password.current">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="nueva" class="col-md-2 control-label">Nueva
+				password</label>
+			<div class="col-md-10">
+				<input name="nueva" type="password" class="form-control"
+					ng-model="password.nueva" ng-minlength="6" required>
+			</div>
+			<p ng-hide="changePassword.nueva.$valid" class="text-danger">La
+				password es demasiado corta</p>
+		</div>
+
+		<div class="form-group">
+			<label for="nueva2" class="col-md-2 control-label">Repita
+				la password</label>
+			<div class="col-md-10">
+				<input name="nueva2" type="password" class="form-control"
+					copy-of="password.nueva" ng-model="password.nueva2">
+			</div>
+			<p ng-show="changePassword.nueva2.$error.copyOf"
+				class="text-danger">Las password no son iguales</p>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<button class="btn btn-primary" type="submit"
+					ng-disabled="changePassword.$invalid">Cambiar password</button>
+			</div>
+		</div>
+	</form>
+</body>
+</html>
