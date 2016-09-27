@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.konecta.acceso.model.Usuario;
-import com.konecta.acceso.repository.UsuarioRepository;
 import com.konecta.acceso.web.controller.model.CreateFindResult;
+import com.konecta.sso.model.Usuario;
+import com.konecta.sso.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("usuario")

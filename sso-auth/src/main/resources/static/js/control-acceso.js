@@ -8,6 +8,11 @@ angular.module('control-acceso', [ 'ngRoute', 'aplicaciones' ])
     $routeProvider.when('/aplicaciones', {
         templateUrl : 'html/aplicaciones.html'
     });
+    $routeProvider.when('/registro', {
+        templateUrl : 'html/registro.html',
+        controller: 'new-usuario',
+        controllerAs: 'controller'
+    });
     $routeProvider.otherwise("/");
 })
 

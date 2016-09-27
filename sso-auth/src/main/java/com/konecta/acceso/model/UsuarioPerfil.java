@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.konecta.sso.model.Usuario;
+
 @Entity
 @Table(name = "USUARIO_PERFIL")
 @IdClass(UsuarioPerfilId.class)

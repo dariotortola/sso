@@ -29,7 +29,11 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+    /*
+     * TODO cambiar por BCrypt
+     */
     @Autowired
+    @Qualifier(MvcConfiguration.ENCODER_SHA1B64)
     private PasswordEncoder passwordEncoder;
     @Autowired
     @Qualifier("authenticationManagerBean")

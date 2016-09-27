@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Registro de usuarios</title>
+</head>
+<body>
+
+	<blockquote ng-show="creado">
+		<p class="text-success">El usuario se ha creado correctamente</p>
+	</blockquote>
+
+	<blockquote ng-show="error">
+		<p class="text-danger">{{error}}</p>
+	</blockquote>
+
+	<form class="form-horizontal" ng-submit="controller.submit()"
+		name="newUserForm">
+
+		<div class="form-group">
+			<label for="username" class="col-md-2 control-label">Nombre
+				de usuario</label>
+			<div class="col-md-10">
+				<input name="username" class="form-control" required
+					ng-model="usuario.username" ensure-unique>
+			</div>
+			<p ng-show="newUserForm.username.$error.required" class="text-danger">El
+				nombre de usuario es obligatorio</p>
+			<p ng-show="newUserForm.username.$error.unique" class="text-danger">El
+				nombre de usuario ya existe</p>
+		</div>
+
+		<div class="form-group">
+			<label for="nombre" class="col-md-2 control-label">Nombre
+				real</label>
+			<div class="col-md-10">
+				<input name="nombre" class="form-control" ng-model="usuario.nombre">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="email" class="col-md-2 control-label">Email</label>
+			<div class="col-md-10">
+				<input name="email" type="email" class="form-control"
+					ng-model="usuario.email" ensure-unique>
+			</div>
+			<p ng-show="newUserForm.email.$error.unique" class="text-danger">Este
+				email ya está registrado</p>
+		</div>
+
+		<div class="form-group">
+			<label for="meta4" class="col-md-2 control-label">Meta4</label>
+			<div class="col-md-10">
+				<input name="meta4" class="form-control" ng-model="usuario.meta4"
+					ensure-unique>
+			</div>
+			<p ng-show="newUserForm.meta4.$error.unique" class="text-danger">Este
+				meta4 ya está registrado</p>
+		</div>
+
+		<div class="form-group">
+			<label for="password" class="col-md-2 control-label">Password</label>
+			<div class="col-md-10">
+				<input name="password" type="password" class="form-control"
+					ng-model="usuario.password" ng-minlength="6" required>
+			</div>
+			<p ng-hide="newUserForm.password.$valid" class="text-danger">La
+				password es demasiado corta</p>
+		</div>
+
+		<div class="form-group">
+			<label for="password2" class="col-md-2 control-label">Repita
+				la password</label>
+			<div class="col-md-10">
+				<input name="password2" type="password" class="form-control"
+					copy-of="usuario.password" ng-model="usuario.password2">
+			</div>
+			<p ng-show="newUserForm.password2.$error.copyOf" class="text-danger">Las
+				password no son iguales</p>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<button class="btn btn-primary" type="submit"
+					ng-disabled="newUserForm.$invalid">Dar de alta usuario</button>
+			</div>
+		</div>
+	</form>
+
+</body>
+</html>

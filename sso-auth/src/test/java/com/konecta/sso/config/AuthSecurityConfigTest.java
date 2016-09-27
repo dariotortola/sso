@@ -2,7 +2,6 @@ package com.konecta.sso.config;
 
 import java.util.Collections;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +15,6 @@ public class AuthSecurityConfigTest {
     @Test
     public void test() throws Exception {
         AuthSecurityConfig config = new AuthSecurityConfig();
-        Assert.assertNotNull(config.passwordEncoder());
 
         @SuppressWarnings("unchecked")
         HttpSecurity http = new HttpSecurity(Mockito.mock(ObjectPostProcessor.class),

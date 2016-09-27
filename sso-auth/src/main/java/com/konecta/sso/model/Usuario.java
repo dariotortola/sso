@@ -1,4 +1,4 @@
-package com.konecta.acceso.model;
+package com.konecta.sso.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +15,12 @@ public class Usuario {
 
     @Column(name = "ACTIVO")
     private boolean activo;
+    @Column(name = "BCRYPT")
+    private String bcrypt;
+    /**
+     * no tenemos garantía de unicidad, ya que algunas veces se de alta un
+     * usuario con el email de su supervisor, porque no tiene uno propio
+     */
     @Column(name = "EMAIL")
     private String email;
     @Id
@@ -24,6 +30,10 @@ public class Usuario {
     private Long id;
     @Column(name = "MD5")
     private String md5;
+    /**
+     * TODO debería ser único, pero en la bbdd actual no lo es. Lo más probable
+     * es que sea porque el meta4 se asigne antes que un nombre de usuario.
+     */
     @Column(name = "META4")
     private String meta4;
     @Column(name = "NOMBRE")
@@ -32,10 +42,14 @@ public class Usuario {
     private String sha1;
     @Column(name = "SHA1_BASE64")
     private String sha1base64;
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", unique = true, nullable = false)
     private String username;
     @Version
     private Long version;
+
+    public String getBcrypt() {
+        return bcrypt;
+    }
 
     public String getEmail() {
         return email;
@@ -79,6 +93,10 @@ public class Usuario {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public void setBcrypt(String bcrypt) {
+        this.bcrypt = bcrypt;
     }
 
     public void setEmail(String email) {

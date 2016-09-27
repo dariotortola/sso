@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.konecta.sso.service.UserClientAuthoritiesService;
 
+/**
+ * Endpoints de usuario a efectos de autenticación, etc
+ * 
+ * @author dtortola
+ *
+ */
 @RestController
 public class UserController {
 
