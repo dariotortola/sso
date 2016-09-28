@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.Assert;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -22,9 +24,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.konecta.sso.controller.model.NewUsuario;
 import com.konecta.sso.controller.model.PasswordChange;
+import com.konecta.sso.controller.model.SimpleResponse;
 import com.konecta.sso.model.Usuario;
 import com.konecta.sso.repository.UsuarioRepository;
 import com.konecta.sso.service.UserClientAuthoritiesService;
+import com.konecta.sso.service.UsuarioService;
 
 @RunWith(SpringRunner.class)
 public class LoggedInControllerTest {
@@ -37,6 +41,8 @@ public class LoggedInControllerTest {
     private JdbcUserDetailsManager manager;
     @Mock
     private UsuarioRepository repository;
+    @Mock
+    private UsuarioService userService;
 
     @Test
     public void meOAuth() {
@@ -82,11 +88,31 @@ public class LoggedInControllerTest {
 
     @Test
     public void changePassword() {
+        Principal principal = Mockito.mock(Principal.class);
+        String username = "username";
+        Mockito.when(principal.getName()).thenReturn(username);
+
         PasswordChange change = new PasswordChange();
         change.setCurrent("current");
         change.setNueva("nueva");
-        controller.changePassword(change);
+
+        // todo bien
+        SimpleResponse response = controller.changePassword(change, principal);
         Mockito.verify(manager).changePassword(change.getCurrent(), change.getNueva());
+        Mockito.verify(userService).changePassword(principal.getName(), change.getNueva());
+        Assert.assertTrue(response.isSuccess());
+
+        // fallo
+        Mockito.reset(manager, userService);
+        Mockito.doThrow(BadCredentialsException.class).when(manager).changePassword(change.getCurrent(),
+                change.getNueva());
+        response = controller.changePassword(change, principal);
+        Assert.assertFalse(response.isSuccess());
+        Assert.assertTrue(StringUtils.isNotBlank(response.getError()));
+        // se intenta llamar al manager
+        Mockito.verify(manager).changePassword(change.getCurrent(), change.getNueva());
+        // no se llega a modificar en bbdd
+        Mockito.verifyZeroInteractions(userService);
     }
 
     @Test
@@ -131,5 +157,27 @@ public class LoggedInControllerTest {
         };
 
         Mockito.verify(repository).save(Matchers.argThat(matcher));
+    }
+
+    @Test
+    public void getPersonalInformation() {
+        Principal principal = Mockito.mock(Principal.class);
+        String username = "username";
+        Mockito.when(principal.getName()).thenReturn(username);
+        Long id = 1L;
+        Usuario usuario = new Usuario();
+        usuario.setEmail("email");
+        usuario.setMeta4("meta4");
+        usuario.setNombre("nombre");
+        usuario.setUsername("username");
+        usuario.setId(id);
+        Mockito.when(repository.findByUsername(username)).thenReturn(Collections.singletonList(usuario));
+
+        NewUsuario info = controller.getPersonalInformation(principal);
+
+        Assert.assertEquals(info.getEmail(), usuario.getEmail());
+        Assert.assertEquals(info.getMeta4(), usuario.getMeta4());
+        Assert.assertEquals(info.getNombre(), usuario.getNombre());
+        Assert.assertEquals(info.getUsername(), usuario.getUsername());
     }
 }

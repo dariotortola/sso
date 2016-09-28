@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,6 +25,7 @@ import com.konecta.sso.controller.model.SimpleResponse;
 import com.konecta.sso.model.Usuario;
 import com.konecta.sso.repository.UsuarioRepository;
 import com.konecta.sso.service.UserClientAuthoritiesService;
+import com.konecta.sso.service.UsuarioService;
 
 /**
  * Gestiones sobre el usuario logado
@@ -32,6 +35,7 @@ import com.konecta.sso.service.UserClientAuthoritiesService;
  */
 @RestController
 public class LoggedInController {
+    private static final Log LOG = LogFactory.getLog(LoggedInController.class);
     @Autowired
     private JdbcUserDetailsManager userManager;
 
@@ -40,6 +44,8 @@ public class LoggedInController {
 
     @Autowired
     private UsuarioRepository repository;
+    @Autowired
+    private UsuarioService userService;
 
     /**
      * @param logged
@@ -89,11 +95,17 @@ public class LoggedInController {
     @PostMapping("usuario/me/password")
     @PreAuthorize("isAuthenticated()")
     @Transactional
-    public SimpleResponse changePassword(@RequestBody PasswordChange change) {
+    public SimpleResponse changePassword(@RequestBody PasswordChange change, Principal principal) {
         try {
             userManager.changePassword(change.getCurrent(), change.getNueva());
+            /*
+             * ahora que sabemos que cambia la password, cambiamos las demás
+             * codificaciones
+             */
+            userService.changePassword(principal.getName(), change.getNueva());
             return SimpleResponse.success();
         } catch (BadCredentialsException e) {
+            LOG.info("Password incorrecta cambiando de password", e);
             return SimpleResponse.error("La password es incorrecta");
         }
     }

@@ -38,6 +38,34 @@ public class UsuarioService {
     private PasswordEncoder sha1b64;
 
     /**
+     * Cambia las password del usuario con este username, sin comprobar la
+     * anterior
+     * 
+     * @param username
+     *            debe existir un usuario con este username
+     * @param newPassword
+     */
+    @Transactional
+    public void changePassword(String username, String newPassword) {
+        Usuario usuario = repository.findByUsername(username).get(0);
+        changePasswords(newPassword, usuario);
+        repository.save(usuario);
+    }
+
+    /**
+     * Codifica todas las passwords de usuario
+     * 
+     * @param newPassword
+     * @param usuario
+     */
+    private void changePasswords(String newPassword, Usuario usuario) {
+        usuario.setMd5(md5.encode(newPassword));
+        usuario.setSha1(sha1.encode(newPassword));
+        usuario.setSha1base64(sha1b64.encode(newPassword));
+        usuario.setBcrypt(bcrypt.encode(newPassword));
+    }
+
+    /**
      * @param usuario
      * @return usuario creado
      */
@@ -46,12 +74,9 @@ public class UsuarioService {
         Usuario nuevo = new Usuario();
         nuevo.setActivo(true);
         nuevo.setEmail(usuario.getEmail());
-        nuevo.setMd5(md5.encode(usuario.getPassword()));
+        changePasswords(usuario.getPassword(), nuevo);
         nuevo.setMeta4(usuario.getMeta4());
         nuevo.setNombre(usuario.getNombre());
-        nuevo.setSha1(sha1.encode(usuario.getPassword()));
-        nuevo.setSha1base64(sha1b64.encode(usuario.getPassword()));
-        nuevo.setBcrypt(bcrypt.encode(usuario.getPassword()));
         nuevo.setUsername(usuario.getUsername());
         return repository.save(nuevo);
     }

@@ -5,6 +5,10 @@ spring:
     username: scott
     password: tiger
   jpa.hibernate.ddl-auto: update
+  mail: 
+    host: 172.15.2.32
+    port: 25
+    #ssl=false
   
 server:
   port: 9999
