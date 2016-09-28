@@ -23,14 +23,17 @@ angular.module('control-acceso')
             this.changePassword = function() {
                 $http.post('usuario/me/password', $scope.password).then(
                         function(value) {
-                            // reiniciamos el cambio
-                            $scope.password = {
-                                current : null,
-                                nueva : null,
-                                nueva2 : null
-                            };
-                        }, function(reason) {
-
+                            if (value.data.success) {
+                                // se ha hecho bien, reiniciamos el cambio
+                                $scope.password = {
+                                    current : null,
+                                    nueva : null,
+                                    nueva2 : null
+                                };
+                            } else {
+                                // error
+                                $scope.password.error = value.data.error;
+                            }
                         });
             };
         });

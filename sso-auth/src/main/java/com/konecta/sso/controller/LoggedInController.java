@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.konecta.sso.controller.model.NewUsuario;
 import com.konecta.sso.controller.model.PasswordChange;
+import com.konecta.sso.controller.model.SimpleResponse;
 import com.konecta.sso.model.Usuario;
 import com.konecta.sso.repository.UsuarioRepository;
 import com.konecta.sso.service.UserClientAuthoritiesService;
@@ -79,11 +81,21 @@ public class LoggedInController {
         repository.save(usuario);
     }
 
+    /**
+     * @param change
+     * @return null si todo va bien, un mensaje de error si la password original
+     *         no es correcta)
+     */
     @PostMapping("usuario/me/password")
     @PreAuthorize("isAuthenticated()")
     @Transactional
-    public void changePassword(@RequestBody PasswordChange change) {
-        userManager.changePassword(change.getCurrent(), change.getNueva());
+    public SimpleResponse changePassword(@RequestBody PasswordChange change) {
+        try {
+            userManager.changePassword(change.getCurrent(), change.getNueva());
+            return SimpleResponse.success();
+        } catch (BadCredentialsException e) {
+            return SimpleResponse.error("La password es incorrecta");
+        }
     }
 
     @GetMapping("usuario/me/count/username")

@@ -54,7 +54,7 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // pasamos de los elementos estáticos
-        web.ignoring().antMatchers("/webjars/**", "/js/**");
+        web.ignoring().antMatchers("/webjars/**", "/js/**", "/html/**");
     }
 
 }

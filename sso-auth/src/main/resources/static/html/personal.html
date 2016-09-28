@@ -67,6 +67,9 @@
 					ng-model="password.current">
 			</div>
 		</div>
+		<blockquote ng-show="password.error">
+			<p class="text-danger">{{password.error}}</p>
+		</blockquote>
 		<div class="form-group">
 			<label for="nueva" class="col-md-2 control-label">Nueva
 				password</label>
@@ -79,14 +82,14 @@
 		</div>
 
 		<div class="form-group">
-			<label for="nueva2" class="col-md-2 control-label">Repita
-				la password</label>
+			<label for="nueva2" class="col-md-2 control-label">Repita la
+				password</label>
 			<div class="col-md-10">
 				<input name="nueva2" type="password" class="form-control"
 					copy-of="password.nueva" ng-model="password.nueva2">
 			</div>
-			<p ng-show="changePassword.nueva2.$error.copyOf"
-				class="text-danger">Las password no son iguales</p>
+			<p ng-show="changePassword.nueva2.$error.copyOf" class="text-danger">Las
+				password no son iguales</p>
 		</div>
 
 		<div class="form-group">

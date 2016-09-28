@@ -1,13 +1,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript" src="../webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../webjars/jquery/jquery.js"></script>
 
-<link rel="stylesheet" href="../webjars/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../webjars/bootstrap/css/bootstrap.css">
 <script type="text/javascript"
-	src="../webjars/bootstrap/js/bootstrap.min.js"></script>
+	src="../webjars/bootstrap/js/bootstrap.js"></script>
 
-<script type="text/javascript" src="../webjars/angularjs/angular.min.js"></script>
+<script type="text/javascript" src="../webjars/angularjs/angular.js"></script>
 </head>
 <body>
 	<div class="container">
