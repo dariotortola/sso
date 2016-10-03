@@ -9,6 +9,7 @@ spring:
     host: 172.15.2.32
     port: 25
     #ssl=false
+  mvc.favicon.enabled: false
   
 server:
   port: 9999

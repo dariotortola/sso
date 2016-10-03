@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * Configuración de seguridad por la parte de aplicación
@@ -37,8 +36,14 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin().loginPage("/login").permitAll();
         http.rememberMe().userDetailsService(userDetailsService).key("AccesoKonecta");
-        http.logout().deleteCookies("JSESSIONID", "XSRF-TOKEN", "remember-me");
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        http.logout().deleteCookies("JSESSIONID", "XSRF-TOKEN", "remember-me").logoutSuccessUrl("/");
+
+        http.csrf().disable();
+        /*
+         * TODO CookieCsrfTokenRepository repo =
+         * CookieCsrfTokenRepository.withHttpOnlyFalse();
+         * http.csrf().csrfTokenRepository(repo);
+         */
     }
 
     @Override
@@ -54,7 +59,7 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // pasamos de los elementos estáticos
-        web.ignoring().antMatchers("/webjars/**", "/js/**", "/html/**");
+        web.ignoring().antMatchers("/webjars/**", "/js/**", "/html/**", "/images/**");
     }
 
 }

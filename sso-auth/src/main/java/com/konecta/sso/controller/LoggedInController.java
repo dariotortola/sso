@@ -51,7 +51,7 @@ public class LoggedInController {
      * @param logged
      * @return información del usuario logado actualmente
      */
-    @GetMapping({ "me", "user/me" })
+    @GetMapping({ "me", "usuario/me/auth" })
     public Authentication getMe(Authentication logged) {
         if (logged instanceof OAuth2Authentication) {
             // entrada por OAuth, filtramos los permisos por aplicación

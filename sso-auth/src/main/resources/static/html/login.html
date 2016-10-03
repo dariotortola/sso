@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body>
+	<div class="container">
+		<form action="login" method="post" role="form">
+			<div class="form-group">
+				<label for="username">Username:</label> <input type="text"
+					class="form-control" id="username" name="username"
+					ng-model="login.username" />
+			</div>
+			<div class="form-group">
+				<label for="password">Password:</label> <input type="password"
+					class="form-control" id="password" name="password"
+					ng-model="login.password" />
+			</div>
+			<div class="form-group">
+				<input type="checkbox" id="rememberMe" name="remember-me"
+					ng-model="login['remember-me']" /> <label for="rememberMe">Recuérdame</label>
+			</div>
+			<input type="hidden" id="spring-security-redirect"
+				name="spring-security-redirect" value="#/personal"
+				ng-model="login.redirect" />
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<button class="btn btn-default" ng-click="controller.login()">Submit
+				por angular</button>
+		</form>
+	</div>
+</body>
+</html>

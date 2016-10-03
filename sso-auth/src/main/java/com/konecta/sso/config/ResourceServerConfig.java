@@ -38,7 +38,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
          */
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry autreq = http
                 .authorizeRequests();
-        autreq.antMatchers("/me").access("#oauth2.isOAuth() or isAuthenticated()");
+        autreq.antMatchers("/me").access("#oauth2.isOAuth()");
     }
 
 }

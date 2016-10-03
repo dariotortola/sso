@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="images/favicon.png">
 <title>Control de acceso</title>
 <script type="text/javascript" src="webjars/jquery/jquery.js"></script>
 
@@ -27,10 +28,14 @@
 		<ul class="nav navbar-nav">
 			<li ng-class="{'active' : isActive('/registro')}"><a
 				href="#/registro">Registro de usuarios</a></li>
-			<li ng-class="{'active' : isActive('/personal')}"><a
-				href="#/personal">Datos personales</a></li>
-			<li ng-class="{'active' : isActive('/aplicaciones')}"><a
-				href="#/aplicaciones">Aplicaciones</a></li>
+			<li ng-class="{'active' : isActive('/personal')}"
+				ng-show="authentication"><a href="#/personal">Datos
+					personales</a></li>
+			<li ng-class="{'active' : isActive('/login')}"
+				ng-hide="authentication"><a href="#/login">Login</a></li>
+			<li ng-class="{'active' : isActive('/aplicaciones')}"
+				ng-show="authentication"><a href="#/aplicaciones">Aplicaciones</a></li>
+			<li ng-show="authentication"><a href="logout">Logout</a></li>
 		</ul>
 	</nav>
 

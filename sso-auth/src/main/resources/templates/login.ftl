@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="images/favicon.png">
 <script type="text/javascript" src="webjars/jquery/jquery.js"></script>
 
 <link rel="stylesheet" href="webjars/bootstrap/css/bootstrap.css">
@@ -29,7 +30,7 @@
 		    <input type="checkbox" id="rememberMe" name="remember-me"/>
 		    <label for="rememberMe">Recuérdame</label>
 		  </div>
-		  <input type="hidden" id="csrf_token" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		  
 		  <button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 	</div>
