@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edición de aplicación</title>
+</head>
+<body>
+
+	<form class="form-horizontal" novalidate name="editAplicacion"
+		ng-show="aplicacion">
+
+		<div class="form-group">
+			<label for="codigo" class="col-md-2 control-label">Nombre de
+				la aplicación</label>
+			<div class="col-md-10">
+				<input name="codigo" required ng-model="aplicacion.codigo"
+					ensure-unique="aplicacion/unique/{{aplicacion.id}}/">
+				<p ng-show="editAplicacion.codigo.$error.required"
+					class="text-danger">El nombre de aplicación es obligatorio</p>
+				<p ng-show="editAplicacion.codigo.$error.unique" class="text-danger">Ya
+					existe otra aplicación con este código</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="descripcion" class="col-md-2 control-label">Descripción</label>
+			<div class="col-md-10">
+				<input name="descripcion" ng-model="aplicacion.descripcion">
+			</div>
+		</div>
+
+		<blockquote>
+			<p>Los siguientes elementos se aplican sólo cuando la aplicación
+				participa en Single Sign On</p>
+		</blockquote>
+
+		<div class="form-group">
+			<label class="col-md-2 control-label">Password</label>
+			<div class="col-md-10">
+				<button class="btn btn-warning" data-toggle="modal"
+					data-target="#change-password">Cambiar password</button>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-2 control-label" for="accessTokenValidity">Validez
+				del token de acceso</label>
+			<div class="col-md-10">
+				<input name="accessTokenValidity" class="form-control" type="number"
+					ng-model="aplicacion.accessTokenValidity"> <span
+					class="help-block">Validez en segundos del token de acceso
+					que el servidor de autenticación dará a esta aplicación</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-2 control-label" for="refreshTokenValidity">Validez
+				del token de refresco</label>
+			<div class="col-md-10">
+				<input name="refreshTokenValidity" class="form-control"
+					type="number" ng-model="aplicacion.refreshTokenValidity"> <span
+					class="help-block">Validez en segundos del token de
+					refresco. Este token permite a la aplicación obtener un nuevo token
+					de acceso cuando éste caduca</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-2 control-label" for="webServerRedirectUri">URI
+				a la que redirigir</label>
+			<div class="col-md-10">
+				<input name="webServerRedirectUri" class="form-control" type="url"
+					ng-model="aplicacion.webServerRedirectUri"> <span
+					class="help-block">Tras la autenticación, si tiene que
+					dirigir a algún sitio distinto del original, se especifica aquí</span>
+			</div>
+		</div>
+
+		<div class="col-md-offset-2">
+			<button class="btn btn-danger" ng-disabled="editAplicacion.$invalid"
+				ng-click="controller.save()">Guardar cambios</button>
+		</div>
+
+	</form>
+
+	<!-- modal para cambiar la password de la aplicación -->
+	<div id="change-password" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<form class="form-inline">
+						<div class="form-group">
+							<label for="newPassword" class="sr-only">Nueva password
+								de la aplicación</label> <input class="form-control" name="newPassword"
+								ng-model="aplicacion.password">
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-danger" data-dismiss="modal">Cambiar
+						la password</button>
+					<button class="btn btn-primary" data-dismiss="modal"
+						ng-click="aplicacion.password=null">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

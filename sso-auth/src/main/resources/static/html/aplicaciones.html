@@ -5,65 +5,103 @@
 </head>
 <body>
 
-	<div ng-controller="gestion-aplicaciones as gesApp">
+	<!-- búsqueda de aplicaciones -->
+	<form name="appSearch" ng-submit="gesApp.refresh()" class="form-inline">
+		<div class="col-md-10">
+			<input class="form-control" ng-model="query">
+		</div>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-primary">Filtrar</button>
+		</div>
+	</form>
 
-		<form name="appSearch" ng-submit="gesApp.refresh()"
-			class="form-inline">
-			<div class="col-md-10">
-				<input class="form-control" ng-model="query">
-			</div>
-			<div class="col-md-2">
-				<button type="submit" class="btn btn-primary">Filtrar</button>
-			</div>
-		</form>
+	<p ng-hide="aplicacion.list && aplicacion.list.length > 0">No hay
+		resultados</p>
 
-		<p ng-hide="aplicacion.list && aplicacion.list.length > 0">No hay
-			resultados</p>
+	<table class="table table-hover"
+		ng-show="aplicacion.list && aplicacion.list.length > 0">
+		<thead>
+			<tr>
+				<th>Aplicación</th>
+				<th>Descripción</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="x in aplicacion.list"
+				ng-class="{ 'active' : x === aplicacion.selected}"
+				ng-click="aplicacion.selected = x">
+				<td>{{x.codigo}}</td>
+				<td>{{x.descripcion}}</td>
+				<td><a class="btn btn-default" href="#/aplicacion/{{x.id}}">Editar</a>
+					<button class="btn btn-danger" data-toggle="modal"
+						data-target="#confirm-app-deletion">Eliminar</button></td>
+			</tr>
+		</tbody>
+	</table>
 
-		<table class="table table-hover"
-			ng-show="aplicacion.list && aplicacion.list.length > 0">
-			<thead>
-				<tr>
-					<th>Aplicación</th>
-					<th>Descripción</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="x in aplicacion.list"
-					ng-class="{ 'active' : x === aplicacion.selected}"
-					ng-click="aplicacion.selected = x">
-					<td>{{x.codigo}}</td>
-					<td>{{x.descripcion}}</td>
-					<td><button class="btn btn-default" data-toggle="modal"
-							data-target="#edit-app">Editar</button>
-						<button class="btn btn-danger" data-toggle="modal"
-							data-target="#confirm-app-deletion">Eliminar</button></td>
-				</tr>
-			</tbody>
-		</table>
+	<!-- modal para confirmar borrado de aplicación -->
+	<div id="confirm-app-deletion" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<p>Se va a borrar la aplicación {{ aplicacion.selected.codigo
+						}}, así como todos sus perfiles y permisos. ¿Está seguro?</p>
+				</div>
 
-		<!-- modal para confirmar borrado de aplicación -->
-		<div id="confirm-app-deletion" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<p>Se va a borrar la aplicación {{ aplicacion.selected.codigo
-							}}, así como todos sus perfiles y permisos. ¿Está seguro?</p>
-					</div>
-
-					<div class="modal-footer">
-						<button class="btn btn-danger" data-dismiss="modal"
-							ng-click="aplicacion.selected.$remove(gesApp.refresh);">Estoy
-							seguro, que se borre todo</button>
-						<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-					</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger" data-dismiss="modal"
+						ng-click="aplicacion.selected.$remove(gesApp.refresh);">Estoy
+						seguro, que se borre todo</button>
+					<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
+	<button data-toggle="modal" data-target="#createModal"
+		class="btn btn-primary">Crear nueva aplicación</button>
+
+	<div id="createModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+
+					<form name="appCreate" class="form-horizontal" novalidate>
+						<div class="form-group">
+							<label for="codigo" class="col-md-2 control-label">Nombre
+								de la aplicación</label>
+							<div class="col-md-10">
+								<input name="codigo" required ng-model="aplicacion.nueva.codigo"
+									ensure-unique="aplicacion/unique/">
+								<p ng-show="appCreate.codigo.$error.required"
+									class="text-danger">El nombre de aplicación es obligatorio</p>
+								<p ng-show="appCreate.codigo.$error.unique" class="text-danger">Ya
+									existe otra aplicación con este código</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="descripcion" class="col-md-2 control-label">Descripción</label>
+							<div class="col-md-10">
+								<input name="descripcion"
+									ng-model="aplicacion.nueva.descripcion">
+							</div>
+						</div>
+
+					</form>
+				</div>
+
+				<div class="modal-footer">
+
+					<button class="btn btn-primary"
+						ng-click="gesApp.create(gesApp.refresh)"
+						ng-disabled="appCreate.$invalid" data-dismiss="modal">Crear</button>
+					<button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

@@ -6,7 +6,9 @@ angular.module('control-acceso', [ 'ngRoute', 'aplicaciones' ])
 .config(function($routeProvider) {
 
     $routeProvider.when('/aplicaciones', {
-        templateUrl : 'html/aplicaciones.html'
+        templateUrl : 'html/aplicaciones.html',
+        controller : 'gestion-aplicaciones',
+        controllerAs : "gesApp"        
     });
     $routeProvider.when('/login', {
         templateUrl : 'html/login.html',
@@ -22,6 +24,11 @@ angular.module('control-acceso', [ 'ngRoute', 'aplicaciones' ])
         templateUrl : 'html/personal.html',
         controller : 'personal',
         controllerAs : 'controller'
+    });
+    $routeProvider.when('/aplicacion/:appId', {
+        templateUrl : 'html/aplicacion.html',
+        controller : 'edicion-aplicacion',
+        controllerAs: "controller"
     });
     $routeProvider.otherwise("/");
 })
